@@ -1,7 +1,7 @@
 #pragma once
 
 #pragma warning(disable : 4996)
-
+using json = nlohmann::json;
 using uint = unsigned int;
 
 /**
@@ -66,10 +66,10 @@ public:
     std::string m_description;
     /// Приоритет задачи
     int m_priority = 0;
-
-private:
     /// Теги задачи
     std::vector<std::string> m_tags;
+
+private:
     /// ID задачи
     unsigned int m_id;
     /// Статус задачи
@@ -77,3 +77,16 @@ private:
 };
 
 std::ostream &operator<<(std::ostream &os, const Task &task);
+
+/**
+ * @brief Сериализует в json
+ * @param t Таск, который нужно сериализовать
+ */
+json to_json(const Task &t);
+
+/**
+ * @brief Десериализует из json
+ * @param j Объект откуда будет прочтён таск
+ * @return Нужный таск
+ */
+Task from_json(const json &j);
