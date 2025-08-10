@@ -10,6 +10,7 @@ set(SOURCES
     src/stdafx.cpp
     src/todo/Task.cpp
     src/todo/FileStorageJSON.cpp
+    src/todo/TaskManager.cpp
 )
 
 # Собираем список заголовков
@@ -17,6 +18,7 @@ set(HEADERS
     include/stdafx.h
     include/Task.h
     include/FileStorage.h
+    include/TaskManager.h
     include/nlohmann/json.hpp
 )
 

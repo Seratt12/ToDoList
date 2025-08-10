@@ -2,35 +2,43 @@
 
 #include "Task.h"
 #include "FileStorage.h"
+#include "TaskManager.h"
 
 int main(int, char **)
 {
-  json j = j.parse(R"(
-    {
-      "id": 5,
-      "name": "Buy milk",
-      "description": "Buy 2L milk",
-      "due": "2025-08-15",
-      "priority": 2,
-      "done": false,
-      "tags": ["shopping"]
-    })");
+  std::unique_ptr<IStorage> storage = std::make_unique<FileStorageJSON>("data/tasks.json");
+  TaskManager taskManager(std::move(storage));
 
-  std::cout << j.dump(4) << std::endl;
-
-  Task task2 = from_json(j);
-  std::cout << std::endl
-            << task2 << std::endl;
-
-  std::unique_ptr<FileStorageJSON> storageJSON = std::make_unique<FileStorageJSON>("data/tasks.json");
-  std::vector<Task> tasks = storageJSON->Load();
-  std::cout << "Loaded tasks: " << tasks.size() << std::endl;
-  for (const auto& task : tasks)
+  for (const auto &task : taskManager.GetAll())
   {
-	  std::cout << task << std::endl;
+    std::cout << task << std::endl;
   }
 
-  storageJSON->ChangeFile("data/save.json");
-  storageJSON->Save(tasks);
+  std::cout << "---------------------------------------------" << std::endl
+            << std::endl;
+
+  /*
+  taskManager.AddTask(Task(1, "New task", "", std::nullopt, 3, false, {}));
+  */
+
+  /*
+  Task *t = taskManager.GetTask(3);
+  t->m_description = "New description";
+  t->m_priority = 1;
+  t->MarkDone();
+  t->m_due = "2020-01-01";
+  t->m_tags.push_back("tag1");
+  taskManager.Save();
+  */
+
+  /*
+  taskManager.RemoveTask(4);
+  */
+
+  for (const auto &task : taskManager.GetAll())
+  {
+    std::cout << task << std::endl;
+  }
+
   return 0;
 }
