@@ -1,3 +1,6 @@
 build
 main.exe
 .vscode
+CMakeLists.txt.user
+project.json
+project.json.user

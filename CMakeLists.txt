@@ -4,11 +4,22 @@ project(ToDo VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(ToDo
+# Собираем список исходников
+set(SOURCES
     src/main.cpp
     src/stdafx.cpp
     src/todo/Task.cpp
 )
+
+# Собираем список заголовков
+set(HEADERS
+    include/stdafx.h
+    include/Task.h
+    include/nlohmann/json.hpp
+)
+
+# Создаём исполняемый файл
+add_executable(ToDo ${SOURCES} ${HEADERS})
 
 target_include_directories(ToDo PRIVATE include)
 target_precompile_headers(ToDo PRIVATE include/stdafx.h)

@@ -4,7 +4,7 @@
 
 namespace
 {
-    /// Получить текущую дату
+    /// РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСѓС‰СѓСЋ РґР°С‚Сѓ
     std::string GetCurrentDate()
     {
         auto now = std::chrono::system_clock::now();
@@ -17,24 +17,24 @@ namespace
         return timeStringStream.str();
     }
 
-	/// Проверить, содержит ли JSON все необходимые атрибуты для создания задачи
-    bool CheckContainsAttributes(const json& j)
+    /// РџСЂРѕРІРµСЂРёС‚СЊ, СЃРѕРґРµСЂР¶РёС‚ Р»Рё JSON РІСЃРµ РЅРµРѕР±С…РѕРґРёРјС‹Рµ Р°С‚СЂРёР±СѓС‚С‹ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ Р·Р°РґР°С‡Рё
+    bool CheckContainsAttributes(const json &j)
     {
         return j.contains("id") && j.contains("name") && j.contains("description") &&
-            j.contains("due") && j.contains("priority") && j.contains("done") && j.contains("tags");
+               j.contains("due") && j.contains("priority") && j.contains("done") && j.contains("tags");
     }
 }
 
 json to_json(const Task &t)
 {
     json j = {
-		{"id", t.GetId()},
-		{"name", t.m_name},
-		{"description", t.m_description},
-		{"due", t.m_due},
-		{"priority", t.m_priority},
-		{"done", t.GetStatus()},
-		{"tags", t.m_tags}
+        {"id", t.GetId()},
+        {"name", t.m_name},
+        {"description", t.m_description},
+        {"due", t.m_due},
+        {"priority", t.m_priority},
+        {"done", t.GetStatus()},
+        {"tags", t.m_tags}
     };
 
     return j;
@@ -42,19 +42,19 @@ json to_json(const Task &t)
 
 Task from_json(const json &j)
 {
-	if (CheckContainsAttributes(j))
-	{
+    if (CheckContainsAttributes(j))
+    {
         uint id = j["id"].get<uint>();
-		std::string name = j["name"].get<std::string>();
-		std::string description = j["description"].get<std::string>();
-		std::optional<std::string> due = j["due"].is_null() ? std::nullopt : std::make_optional(j["due"].get<std::string>());
-		int priority = j["priority"].get<int>();
-		bool done = j["done"].get<bool>();
-		std::vector<std::string> tags = j["tags"].get<std::vector<std::string>>();
+        std::string name = j["name"].get<std::string>();
+        std::string description = j["description"].get<std::string>();
+        std::optional<std::string> due = j["due"].is_null() ? std::nullopt : std::make_optional(j["due"].get<std::string>());
+        int priority = j["priority"].get<int>();
+        bool done = j["done"].get<bool>();
+        std::vector<std::string> tags = j["tags"].get<std::vector<std::string>>();
 
-		return Task(id, name, description, due, priority, done, tags);
-	}
-	throw std::exception("Invalid JSON for Task");
+        return Task(id, name, description, due, priority, done, tags);
+    }
+    throw std::exception("Invalid JSON for Task");
 }
 
 std::ostream &operator<<(std::ostream &os, const Task &task)
