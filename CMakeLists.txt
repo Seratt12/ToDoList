@@ -9,14 +9,19 @@ set(SOURCES
     src/main.cpp
     src/stdafx.cpp
     src/todo/Task.cpp
+    src/todo/FileStorageJSON.cpp
 )
 
 # Собираем список заголовков
 set(HEADERS
     include/stdafx.h
     include/Task.h
+    include/FileStorage.h
     include/nlohmann/json.hpp
 )
+
+# Копировать папку data в build/
+file(COPY ${CMAKE_SOURCE_DIR}/data DESTINATION ${CMAKE_BINARY_DIR})
 
 # Создаём исполняемый файл
 add_executable(ToDo ${SOURCES} ${HEADERS})
