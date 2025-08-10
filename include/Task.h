@@ -1,8 +1,8 @@
 #pragma once
 
 #pragma warning(disable : 4996)
-using json = nlohmann::json;
-using uint = unsigned int;
+
+class TaskManager;
 
 /**
  * @class Task
@@ -20,8 +20,7 @@ public:
         const std::optional<std::string> &due,
         const int priority,
         const bool done,
-        const std::vector<std::string> tags
-    );
+        const std::vector<std::string> tags);
 
     /**
      * @brief Возвращает ID задачи
@@ -38,19 +37,19 @@ public:
     /**
      * @brief Изменить статус задачи на выполнено
      */
-    void markDone();
+    void MarkDone();
 
     /**
      * @brief Изменить статус задачи на не выполнено
      * @note По умолчанию задача не выполнена
      */
-    void markUndone();
+    void MarkUndone();
 
     /**
      * @brief Узнать просрочена ли задача
      * @return true - задача просрочена, false - нет
      */
-    bool isOverdue() const;
+    bool IsOverdue() const;
 
     /**
      * @brief Вывести информацию о задаче
@@ -70,10 +69,17 @@ public:
     std::vector<std::string> m_tags;
 
 private:
+    /**
+     * @brief Изменяет ID задачи
+     */
+    void SetId(const uint newId);
+
     /// ID задачи
     unsigned int m_id;
     /// Статус задачи
     bool m_done = false;
+
+    friend class TaskManager;
 };
 
 std::ostream &operator<<(std::ostream &os, const Task &task);

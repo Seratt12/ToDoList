@@ -34,8 +34,7 @@ json to_json(const Task &t)
         {"due", t.m_due},
         {"priority", t.m_priority},
         {"done", t.GetStatus()},
-        {"tags", t.m_tags}
-    };
+        {"tags", t.m_tags}};
 
     return j;
 }
@@ -99,7 +98,7 @@ bool Task::GetStatus() const
     return m_done;
 }
 
-void Task::markDone()
+void Task::MarkDone()
 {
     if (m_done)
     {
@@ -108,7 +107,7 @@ void Task::markDone()
     }
     m_done = true;
 }
-void Task::markUndone()
+void Task::MarkUndone()
 {
     if (!m_done)
     {
@@ -118,7 +117,7 @@ void Task::markUndone()
     m_done = false;
 }
 
-bool Task::isOverdue() const
+bool Task::IsOverdue() const
 {
     std::string currDate = GetCurrentDate();
     return m_due < currDate;
@@ -141,4 +140,9 @@ void Task::Print(std::ostream &os) const
         }
         os << std::endl;
     }
+}
+
+void Task::SetId(const uint newId)
+{
+    m_id = newId;
 }

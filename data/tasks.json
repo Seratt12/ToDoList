@@ -3,7 +3,7 @@
         "id": 1,
         "name": "task1",
         "description": "description1",
-        "due": "NULL",
+        "due": null,
         "priority": 2,
         "done": false,
         "tags": ["tag1", "tag2"]
