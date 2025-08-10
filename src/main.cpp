@@ -1,16 +1,11 @@
 #include "stdafx.h"
 
 #include "Task.h"
+#include "FileStorage.h"
 
 int main(int, char **)
 {
-    Task task{1};
-    std::cout << task << std::endl;
-
-    json j = to_json(task);
-    std::cout << j.dump(4) << std::endl << std::endl;
-    
-    j = j.parse(R"(
+  json j = j.parse(R"(
     {
       "id": 5,
       "name": "Buy milk",
@@ -21,9 +16,21 @@ int main(int, char **)
       "tags": ["shopping"]
     })");
 
-    std::cout << j.dump(4) << std::endl;
+  std::cout << j.dump(4) << std::endl;
 
-    Task task2 = from_json(j);
-	std::cout << std::endl << task2 << std::endl;
-    return 0;
+  Task task2 = from_json(j);
+  std::cout << std::endl
+            << task2 << std::endl;
+
+  std::unique_ptr<FileStorageJSON> storageJSON = std::make_unique<FileStorageJSON>("data/tasks.json");
+  std::vector<Task> tasks = storageJSON->Load();
+  std::cout << "Loaded tasks: " << tasks.size() << std::endl;
+  for (const auto& task : tasks)
+  {
+	  std::cout << task << std::endl;
+  }
+
+  storageJSON->ChangeFile("data/save.json");
+  storageJSON->Save(tasks);
+  return 0;
 }
