@@ -33,6 +33,8 @@ target_precompile_headers(ToDo PRIVATE include/stdafx.h)
 
 if(MSVC)
     target_compile_options(ToDo PRIVATE /W4 /permissive- /WX)
+    target_compile_options(ToDo PRIVATE
+        "$<$<CXX_COMPILER_ID:MSVC>:/utf-8;>")
 else()
     target_compile_options(ToDo PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
