@@ -4,28 +4,28 @@
 
 namespace
 {
-    /// Получить текущую дату
-    std::string GetCurrentDate()
-    {
-        auto now = std::chrono::system_clock::now();
-        std::time_t nowTime = std::chrono::system_clock::to_time_t(now);
-        std::tm local_tm = *std::localtime(&nowTime);
+/// Получить текущую дату
+std::string GetCurrentDate()
+{
+    auto now = std::chrono::system_clock::now();
+    std::time_t nowTime = std::chrono::system_clock::to_time_t(now);
+    std::tm local_tm = *std::localtime(&nowTime);
 
-        std::stringstream timeStringStream;
-        timeStringStream << std::put_time(&local_tm, "%Y-%m-%d");
+    std::stringstream timeStringStream;
+    timeStringStream << std::put_time(&local_tm, "%Y-%m-%d");
 
-        return timeStringStream.str();
-    }
-
-    /// Проверить, содержит ли JSON все необходимые атрибуты для создания задачи
-    bool CheckContainsAttributes(const json &j)
-    {
-        return j.contains("id") && j.contains("name") && j.contains("description") &&
-               j.contains("due") && j.contains("priority") && j.contains("done") && j.contains("tags");
-    }
+    return timeStringStream.str();
 }
 
-json to_json(const Task &t)
+/// Проверить, содержит ли JSON все необходимые атрибуты для создания задачи
+bool CheckContainsAttributes(const json& j)
+{
+    return j.contains("id") && j.contains("name") && j.contains("description") &&
+        j.contains("due") && j.contains("priority") && j.contains("done") && j.contains("tags");
+}
+}
+
+json to_json(const Task& t)
 {
     json j = {
         {"id", t.GetId()},
@@ -34,12 +34,12 @@ json to_json(const Task &t)
         {"due", t.m_due},
         {"priority", t.m_priority},
         {"done", t.GetStatus()},
-        {"tags", t.m_tags}};
+        {"tags", t.m_tags} };
 
     return j;
 }
 
-Task from_json(const json &j)
+Task from_json(const json& j)
 {
     if (CheckContainsAttributes(j))
     {
@@ -56,7 +56,7 @@ Task from_json(const json &j)
     throw std::exception("Invalid JSON for Task");
 }
 
-std::ostream &operator<<(std::ostream &os, const Task &task)
+std::ostream& operator<<(std::ostream& os, const Task& task)
 {
     task.Print(os);
     return os;
@@ -67,26 +67,24 @@ std::ostream &operator<<(std::ostream &os, const Task &task)
 //
 
 Task::Task(const uint id) : m_id(id)
-{
-}
+{ }
 
 Task::Task(
     const uint id,
-    const std::string &name,
-    const std::string &description,
-    const std::optional<std::string> &due,
+    const std::string& name,
+    const std::string& description,
+    const std::optional<std::string>& due,
     const int priority,
     const bool done,
     const std::vector<std::string> tags)
     : m_id(id),
-      m_name(name),
-      m_description(description),
-      m_due(due),
-      m_priority(priority),
-      m_done(done),
-      m_tags(tags)
-{
-}
+    m_name(name),
+    m_description(description),
+    m_due(due),
+    m_priority(priority),
+    m_done(done),
+    m_tags(tags)
+{ }
 
 uint Task::GetId() const
 {
@@ -123,7 +121,7 @@ bool Task::IsOverdue() const
     return m_due < currDate;
 }
 
-void Task::Print(std::ostream &os) const
+void Task::Print(std::ostream& os) const
 {
     os << "Task " << m_id << ": " << m_name << std::endl;
     os << "Description: " << m_description << std::endl;
@@ -134,7 +132,7 @@ void Task::Print(std::ostream &os) const
     if (m_tags.size() > 0)
     {
         os << "Tags: ";
-        for (const std::string &tag : m_tags)
+        for (const std::string& tag : m_tags)
         {
             os << tag << " ";
         }

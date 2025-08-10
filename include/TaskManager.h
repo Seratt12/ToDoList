@@ -27,7 +27,7 @@ public:
      * @brief Получить задачу по ID
      * @param id Идентификатор задачи
      */
-    Task *GetTask(uint id);
+    Task* GetTask(uint id);
 
     /**
      * @brief Удаляет задачу по ID.

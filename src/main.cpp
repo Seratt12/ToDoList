@@ -4,18 +4,23 @@
 #include "FileStorage.h"
 #include "TaskManager.h"
 
-int main(int, char **)
+int main(int, char**)
 {
-  std::unique_ptr<IStorage> storage = std::make_unique<FileStorageJSON>("data/tasks.json");
+  // Выбор файла
+  std::string fileName = "tasks.json";
+  // Сборка полного пути
+  std::string fullPath = std::string(DATA_DIR_PATH) + "/" + fileName;
+
+  std::unique_ptr<IStorage> storage = std::make_unique<FileStorageJSON>(fullPath);
   TaskManager taskManager(std::move(storage));
 
-  for (const auto &task : taskManager.GetAll())
+  for (const auto& task : taskManager.GetAll())
   {
     std::cout << task << std::endl;
   }
 
   std::cout << "---------------------------------------------" << std::endl
-            << std::endl;
+    << std::endl;
 
   /*
   taskManager.AddTask(Task(1, "New task", "", std::nullopt, 3, false, {}));
@@ -35,7 +40,7 @@ int main(int, char **)
   taskManager.RemoveTask(4);
   */
 
-  for (const auto &task : taskManager.GetAll())
+  for (const auto& task : taskManager.GetAll())
   {
     std::cout << task << std::endl;
   }

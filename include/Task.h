@@ -15,9 +15,9 @@ public:
 
     Task(
         const uint id,
-        const std::string &name,
-        const std::string &description,
-        const std::optional<std::string> &due,
+        const std::string& name,
+        const std::string& description,
+        const std::optional<std::string>& due,
         const int priority,
         const bool done,
         const std::vector<std::string> tags);
@@ -54,7 +54,7 @@ public:
     /**
      * @brief Вывести информацию о задаче
      */
-    void Print(std::ostream &os) const;
+    void Print(std::ostream& os) const;
 
     /// @brief Крайняя дата выполнения задачи
     /// @note Строка в формате YYYY-MM-DD
@@ -82,17 +82,17 @@ private:
     friend class TaskManager;
 };
 
-std::ostream &operator<<(std::ostream &os, const Task &task);
+std::ostream& operator<<(std::ostream& os, const Task& task);
 
 /**
  * @brief Сериализует в json
  * @param t Таск, который нужно сериализовать
  */
-json to_json(const Task &t);
+json to_json(const Task& t);
 
 /**
  * @brief Десериализует из json
  * @param j Объект откуда будет прочтён таск
  * @return Нужный таск
  */
-Task from_json(const json &j);
+Task from_json(const json& j);

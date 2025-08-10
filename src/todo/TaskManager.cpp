@@ -20,9 +20,9 @@ void TaskManager::AddTask(Task t)
     m_storage->Save(m_tasks);
 }
 
-Task *TaskManager::GetTask(uint id)
+Task* TaskManager::GetTask(uint id)
 {
-    for (auto &task : m_tasks)
+    for (auto& task : m_tasks)
     {
         if (task.GetId() == id)
         {
@@ -48,7 +48,7 @@ bool TaskManager::RemoveTask(uint id)
 
 bool TaskManager::ToggleDone(uint id)
 {
-    for (auto &task : m_tasks)
+    for (auto& task : m_tasks)
     {
         if (task.GetId() == id)
         {
@@ -79,7 +79,7 @@ uint TaskManager::GenerateId()
         return 1;
 
     uint maxId = m_tasks[0].GetId();
-    for (const auto &task : m_tasks)
+    for (const auto& task : m_tasks)
     {
         if (task.GetId() > maxId)
             maxId = task.GetId();

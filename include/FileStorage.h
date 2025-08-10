@@ -10,7 +10,7 @@ class IStorage
 {
 public:
     virtual std::vector<Task> Load() = 0;
-    virtual void Save(const std::vector<Task> &tasks) = 0;
+    virtual void Save(const std::vector<Task>& tasks) = 0;
     virtual ~IStorage() = default;
 };
 
@@ -25,7 +25,7 @@ public:
      * @brief Конструктор для инициализации хранилища задач JSON
      * @param filename Путь к файлу для хранения задач в формате JSON
      */
-    FileStorageJSON(const std::string &filename);
+    FileStorageJSON(const std::string& filename);
     ~FileStorageJSON() override = default;
 
     /**
@@ -38,8 +38,8 @@ public:
      * @brief Сохраняет список задач в файл
      * @param tasks Вектор задач для сохранения
      */
-    void Save(const std::vector<Task> &tasks) override;
-    void ChangeFile(const std::string &filename) { m_filename = filename; }
+    void Save(const std::vector<Task>& tasks) override;
+    void ChangeFile(const std::string& filename) { m_filename = filename; }
 
 private:
     /// Поле хранит путь до файла

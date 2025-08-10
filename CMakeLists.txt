@@ -22,11 +22,16 @@ set(HEADERS
     include/nlohmann/json.hpp
 )
 
-# Копировать папку data в build/
-file(COPY ${CMAKE_SOURCE_DIR}/data DESTINATION ${CMAKE_BINARY_DIR})
-
 # Создаём исполняемый файл
 add_executable(ToDo ${SOURCES} ${HEADERS})
+
+# Абсолютный путь до папки data
+set(DATA_DIR_PATH "${CMAKE_CURRENT_SOURCE_DIR}/data")
+
+# Передаём в код как макрос
+target_compile_definitions(ToDo PRIVATE
+    DATA_DIR_PATH=\"${DATA_DIR_PATH}\"
+)
 
 target_include_directories(ToDo PRIVATE include)
 target_precompile_headers(ToDo PRIVATE include/stdafx.h)

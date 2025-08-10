@@ -2,10 +2,9 @@
 #include "FileStorage.h"
 #include "Task.h"
 
-FileStorageJSON::FileStorageJSON(const std::string &filename)
+FileStorageJSON::FileStorageJSON(const std::string& filename)
     : m_filename(filename)
-{
-}
+{ }
 
 std::vector<Task> FileStorageJSON::Load()
 {
@@ -20,16 +19,16 @@ std::vector<Task> FileStorageJSON::Load()
             std::vector<Task> tasks;
             if (j.is_array())
             {
-                for (auto &task : j)
+                for (auto& task : j)
                     tasks.emplace_back(from_json(task));
                 return tasks;
             }
         }
-        catch (const json::parse_error &e)
+        catch (const json::parse_error& e)
         {
             throw std::runtime_error("JSON parse error: " + std::string(e.what()) + " in file: " + m_filename);
         }
-        catch (const std::exception &e)
+        catch (const std::exception& e)
         {
             throw std::runtime_error("Error loading tasks from file: " + m_filename + ". " + e.what());
         }
@@ -37,7 +36,7 @@ std::vector<Task> FileStorageJSON::Load()
     return {};
 }
 
-void FileStorageJSON::Save(const std::vector<Task> &tasks)
+void FileStorageJSON::Save(const std::vector<Task>& tasks)
 {
     if (tasks.empty())
         return;
@@ -47,7 +46,7 @@ void FileStorageJSON::Save(const std::vector<Task> &tasks)
         throw std::runtime_error("Failed to open file for writing: " + m_filename);
 
     json j = json::array();
-    for (const auto &task : tasks)
+    for (const auto& task : tasks)
         j.emplace_back(to_json(task));
 
     file << std::setw(4) << j << std::endl;
