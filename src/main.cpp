@@ -1,5 +1,10 @@
 #include "stdafx.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+#include "Localization.h"
 #include "Task.h"
 #include "FileStorage.h"
 #include "TaskManager.h"
@@ -8,6 +13,8 @@
 namespace
 {
 const std::string VERSION = "0.1.0";
+const Language localization = Language::RU; // RU - Русский, EN - English
+const Localization loc(localization);
 
 bool isDateValid(const std::string& date)
 {
@@ -17,17 +24,17 @@ bool isDateValid(const std::string& date)
 
 cxxopts::Options GetOptions()
 {
-  cxxopts::Options options("ToDo", "ToDo list");
+  cxxopts::Options options(loc["name"], "ToDo list");
   options.add_options()
-    ("h, help", "Print usage")
-    ("v, version", "Print version")
-    ("a, add", "Add task")
-    ("rm, remove", "Remove task")
-    ("l, list", "List tasks")
-    ("sh, shell", "REPL shell")
-    ("s, status", "Mark task as done or undone")
-    ("i, index", "task index", cxxopts::value<int>())
-    ("file", "File name for input and output", cxxopts::value<std::string>()->default_value("tasks.json"))
+    ("h, help", loc["help"])
+    ("v, version", loc["version"])
+    ("a, add", loc["add"])
+    ("rm, remove", loc["rm"])
+    ("l, list", loc["list"])
+    ("sh, shell", loc["shell"])
+    ("s, status", loc["mark"])
+    ("i, index", loc["index"], cxxopts::value<int>())
+    ("file", loc["file"], cxxopts::value<std::string>()->default_value("tasks.json"))
     ;
 
   options.parse_positional({ "index" });
@@ -37,7 +44,7 @@ cxxopts::Options GetOptions()
 
 void ParseTaskTags(std::vector<std::string>& taskTags)
 {
-  std::cout << "Task tags: " << std::endl;
+  std::cout << loc["task_tags"] << std::endl;
   std::string tag;
   std::getline(std::cin, tag);
   do
@@ -55,18 +62,18 @@ Task ParseTask()
   int taskPriority;
   std::vector<std::string> taskTags;
 
-  std::cout << "Task name: " << std::endl;
+  std::cout << loc["task_name"] << std::endl;
   std::getline(std::cin, taskName);
 
-  std::cout << "Task description: " << std::endl;
+  std::cout << loc["task_description"] << std::endl;
   std::getline(std::cin, taskDescription);
 
-  std::cout << "Task due date (example: 2025-08-10): " << std::endl;
+  std::cout << loc["task_due"] << std::endl;
   std::cin >> strDue;
   if (isDateValid(strDue))
     taskDueDate = strDue;
 
-  std::cout << "Task priority: " << std::endl;
+  std::cout << loc["task_priority"] << std::endl;
   std::cin >> taskPriority;
 
   ParseTaskTags(taskTags);
@@ -76,9 +83,20 @@ Task ParseTask()
 
 void PrintTask(const TaskManager& taskManager)
 {
-  std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
-  std::cout << "| ID   | Name               | Description              | Deadline   | Priority | Status        | Tags           |" << std::endl;
-  std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
+  switch (localization)
+  {
+  case (Language::EN):
+      std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
+      std::cout << "| ID   | Name               | Description              | Deadline   | Priority | Status        | Tags           |" << std::endl;
+      std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
+      break;
+  case (Language::RU):
+    std::cout << u8"+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
+    std::cout << u8"| ID   | Название           | Описание                 | Дедлайн    | Приор.   | Статус        | Теги           |" << std::endl;
+    std::cout << u8"+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
+    break;
+  }
+
 
   for (const auto& task : taskManager.GetAll())
   {
@@ -112,8 +130,7 @@ void CheckCommand(const cxxopts::ParseResult& result, const cxxopts::Options opt
 
   if (result.count("add"))
   {
-    Task task = ParseTask();
-    taskManager.AddTask(task);
+    taskManager.AddTask(ParseTask());
     exit(0);
   }
 
@@ -209,6 +226,10 @@ void CheckCommand(const cxxopts::ParseResult& result, const cxxopts::Options opt
 
 int main(int argc, char* argv[])
 {
+#ifdef _WIN32
+  SetConsoleOutputCP(CP_UTF8);
+  SetConsoleCP(CP_UTF8);
+#endif
   cxxopts::Options options = GetOptions();
 
   try
@@ -216,9 +237,9 @@ int main(int argc, char* argv[])
     auto result = options.parse(argc, argv);
 
     // Файл для ввода/вывода
-    std::string fileName = result["file"].as<std::string>();
+    const std::string& fileName = result["file"].as<std::string>();
     // Полный путь
-    std::string fullPath = std::string(DATA_DIR_PATH) + "/" + fileName;
+    const std::string& fullPath = std::string(DATA_DIR_PATH) + "/" + fileName;
 
     CheckCommand(result, options, fullPath);
 
