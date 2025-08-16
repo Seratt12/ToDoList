@@ -93,6 +93,10 @@ void CheckCommand(const cxxopts::ParseResult& result, const cxxopts::Options opt
 
   if (result.count("list"))
   {
+    std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
+    std::cout << "| ID   | Name               | Description              | Deadline   | Priority | Status        | Tags           |" << std::endl;
+    std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
+
     for (const auto& task : taskManager.GetAll())
     {
       std::cout << task << std::endl;
