@@ -126,7 +126,10 @@ void Task::Print(std::ostream& os) const
     os << "Task " << m_id << ": " << m_name << std::endl;
     os << "Description: " << m_description << std::endl;
     if (m_due)
+    {
         os << "Deadline: " << m_due.value() << std::endl;
+        os << "Overdue: " << (IsOverdue() ? "Yes" : "No") << std::endl;
+    }
     os << "Priority: " << m_priority << std::endl;
     os << "Status: " << (m_done ? "Complete" : "Not completed") << std::endl;
     if (m_tags.size() > 0)
@@ -138,6 +141,7 @@ void Task::Print(std::ostream& os) const
         }
         os << std::endl;
     }
+
 }
 
 void Task::SetId(const uint newId)

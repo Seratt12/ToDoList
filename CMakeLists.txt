@@ -20,6 +20,7 @@ set(HEADERS
     include/FileStorage.h
     include/TaskManager.h
     include/nlohmann/json.hpp
+    include/cxxopts/cxxopts.hpp
 )
 
 # Создаём исполняемый файл

@@ -3,22 +3,22 @@
 class Task;
 
 /**
- * @class IStorage
+ * @class ITaskStorage
  * @brief Интерфейс хранения задач
  */
-class IStorage
+class ITaskStorage
 {
 public:
     virtual std::vector<Task> Load() = 0;
     virtual void Save(const std::vector<Task>& tasks) = 0;
-    virtual ~IStorage() = default;
+    virtual ~ITaskStorage() = default;
 };
 
 /**
  * @class FileStorageJSON
  * @brief Класс для хранения задач в формате JSON
  */
-class FileStorageJSON : public IStorage
+class FileStorageJSON : public ITaskStorage
 {
 public:
     /**
