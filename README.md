@@ -6,6 +6,7 @@
 Из сторонних библиотек сейчас используется:
 
 1. [nlohmann/json](https://github.com/nlohmann/json)
+2. [cxxopts](https://github.com/jarro2783/cxxopts)
 
 ## Собрать проект и запустить:
 
