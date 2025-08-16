@@ -1,7 +1,7 @@
 #pragma once
 
 class Task;
-class IStorage;
+class ITaskStorage;
 
 /**
  * @class TaskManager
@@ -12,9 +12,9 @@ class TaskManager
 public:
     /**
      * @brief Конструктор для инициализации менеджера задач
-     * @param storage Указатель на хранилище задач'
+     * @param storage Указатель на хранилище задач
      */
-    TaskManager(std::unique_ptr<IStorage> storage);
+    TaskManager(std::unique_ptr<ITaskStorage> storage);
 
     /**
      * @brief Добавляет и сохраняет задачу.
@@ -63,5 +63,5 @@ private:
     /// Вектор задач
     std::vector<Task> m_tasks;
     /// Хранилище задач
-    std::unique_ptr<IStorage> m_storage;
+    std::unique_ptr<ITaskStorage> m_storage;
 };

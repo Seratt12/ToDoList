@@ -5,7 +5,7 @@
 #include "Task.h"
 #include "FileStorage.h"
 
-TaskManager::TaskManager(std::unique_ptr<IStorage> storage)
+TaskManager::TaskManager(std::unique_ptr<ITaskStorage> storage)
     : m_storage(std::move(storage))
 {
     m_tasks = m_storage->Load();

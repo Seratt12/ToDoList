@@ -9,6 +9,8 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
+#include <regex>
 
 #include <nlohmann/json.hpp>
 
