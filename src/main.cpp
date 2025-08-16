@@ -24,6 +24,7 @@ cxxopts::Options GetOptions()
     ("a, add", "Add task")
     ("rm, remove", "Remove task")
     ("l, list", "List tasks")
+    ("sh, shell", "REPL shell")
     ("s, status", "Mark task as done or undone")
     ("i, index", "task index", cxxopts::value<int>())
     ("file", "File name for input and output", cxxopts::value<std::string>()->default_value("tasks.json"))
@@ -73,6 +74,18 @@ Task ParseTask()
   return Task(1, taskName, taskDescription, taskDueDate, taskPriority, false, taskTags);
 }
 
+void PrintTask(const TaskManager& taskManager)
+{
+  std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
+  std::cout << "| ID   | Name               | Description              | Deadline   | Priority | Status        | Tags           |" << std::endl;
+  std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
+
+  for (const auto& task : taskManager.GetAll())
+  {
+    std::cout << task << std::endl;
+  }
+}
+
 void CheckCommand(const cxxopts::ParseResult& result, const cxxopts::Options options, const std::string& filePath)
 {
   std::cout << std::unitbuf;
@@ -93,14 +106,7 @@ void CheckCommand(const cxxopts::ParseResult& result, const cxxopts::Options opt
 
   if (result.count("list"))
   {
-    std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
-    std::cout << "| ID   | Name               | Description              | Deadline   | Priority | Status        | Tags           |" << std::endl;
-    std::cout << "+------+--------------------+--------------------------+------------+----------+---------------+----------------+" << std::endl;
-
-    for (const auto& task : taskManager.GetAll())
-    {
-      std::cout << task << std::endl;
-    }
+    PrintTask(taskManager);
     exit(0);
   }
 
@@ -123,6 +129,77 @@ void CheckCommand(const cxxopts::ParseResult& result, const cxxopts::Options opt
     int index = result["index"].as<int>();
     taskManager.ToggleDone(index);
     exit(0);
+  }
+
+  if (result.count("shell"))
+  {
+    std::cout << "Type 'help' for commands." << std::endl;
+    while (true)
+    {
+      std::cout << "> ";
+      std::string line;
+      if (!std::getline(std::cin, line)) break;
+
+      // Разбиваем строку на слова
+      std::istringstream iss(line);
+      std::string command;
+      iss >> command;
+
+      if (command == "exit" || command == "quit")
+      {
+        std::cout << "Bye!" << std::endl;
+        exit(0);
+      }
+      else if (command == "help")
+      {
+        std::cout << "Available commands:\n"
+          << "  add              - add new task\n"
+          << "  list             - list tasks\n"
+          << "  remove <id>      - remove task by id\n"
+          << "  status <id>      - toggle done/undone\n"
+          << "  exit/quit        - leave shell\n";
+      }
+      else if (command == "add")
+      {
+        taskManager.AddTask(ParseTask());
+      }
+      else if (command == "list")
+      {
+        PrintTask(taskManager);
+      }
+      else if (command == "remove")
+      {
+        int index;
+        if (iss >> index)
+        {
+          taskManager.RemoveTask(index);
+        }
+        else
+        {
+          std::cout << "Usage: remove <id>" << std::endl;
+        }
+      }
+      else if (command == "status")
+      {
+        int index;
+        if (iss >> index)
+        {
+          taskManager.ToggleDone(index);
+        }
+        else
+        {
+          std::cout << "Usage: status <id>" << std::endl;
+        }
+      }
+      else if (command.empty())
+      {
+        continue;
+      }
+      else
+      {
+        std::cout << "Unknown command. Type 'help' for list." << std::endl;
+      }
+    }
   }
 
   std::cout << "Unknown command" << std::endl;
