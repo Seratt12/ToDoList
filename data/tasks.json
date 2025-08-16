@@ -1,20 +1,32 @@
 [
     {
+        "description": "description1",
+        "done": false,
+        "due": null,
         "id": 1,
         "name": "task1",
-        "description": "description1",
-        "due": null,
         "priority": 2,
-        "done": false,
-        "tags": ["tag1", "tag2"]
+        "tags": [
+            "tag1",
+            "tag2"
+        ]
     },
     {
+        "description": "description2",
+        "done": false,
+        "due": "2025-08-15",
         "id": 2,
         "name": "task2",
-        "description": "description2",
-        "due": "2025-08-15",
         "priority": 2,
-        "done": false,
+        "tags": []
+    },
+    {
+        "description": "descr3",
+        "done": true,
+        "due": "2025-08-17",
+        "id": 3,
+        "name": "task3",
+        "priority": 3,
         "tags": []
     }
 ]

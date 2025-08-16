@@ -123,25 +123,30 @@ bool Task::IsOverdue() const
 
 void Task::Print(std::ostream& os) const
 {
-    os << "Task " << m_id << ": " << m_name << std::endl;
-    os << "Description: " << m_description << std::endl;
-    if (m_due)
+    std::string deadlineStr = m_due ? m_due.value() : "-";
+    std::string statusStr = m_done ? "\033[32mComplete\033[0m" : "\033[33mNot completed\033[0m";
+
+    if (m_due && IsOverdue() && !m_done)
     {
-        os << "Deadline: " << m_due.value() << std::endl;
-        os << "Overdue: " << (IsOverdue() ? "Yes" : "No") << std::endl;
-    }
-    os << "Priority: " << m_priority << std::endl;
-    os << "Status: " << (m_done ? "Complete" : "Not completed") << std::endl;
-    if (m_tags.size() > 0)
-    {
-        os << "Tags: ";
-        for (const std::string& tag : m_tags)
-        {
-            os << tag << " ";
-        }
-        os << std::endl;
+        deadlineStr = "\033[31m" + deadlineStr + "\033[0m"; // красный для просроченных
     }
 
+    // Склеиваем теги
+    std::ostringstream tags;
+    for (size_t i = 0; i < m_tags.size(); ++i)
+    {
+        tags << m_tags[i];
+        if (i + 1 < m_tags.size()) tags << ", ";
+    }
+
+    os << "| " << std::setw(4) << std::right << m_id
+        << " | " << std::setw(18) << std::left << m_name.substr(0, 18)
+        << " | " << std::setw(24) << std::left << m_description.substr(0, 24)
+        << " | " << std::setw(10) << std::left << deadlineStr
+        << " | " << std::setw(8) << std::right << m_priority
+        << " | " << std::setw(22) << std::left << statusStr
+        << " | " << std::setw(14) << std::left << tags.str().substr(0, 14)
+        << " |";
 }
 
 void Task::SetId(const uint newId)
