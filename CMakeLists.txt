@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCES
     src/main.cpp
     src/stdafx.cpp
+    src/Localization.cpp
     src/todo/Task.cpp
     src/todo/FileStorageJSON.cpp
     src/todo/TaskManager.cpp
@@ -19,6 +20,7 @@ set(HEADERS
     include/Task.h
     include/FileStorage.h
     include/TaskManager.h
+    include/Localization.h
     include/nlohmann/json.hpp
     include/cxxopts/cxxopts.hpp
 )

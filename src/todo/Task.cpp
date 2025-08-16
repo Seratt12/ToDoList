@@ -23,6 +23,38 @@ bool CheckContainsAttributes(const json& j)
     return j.contains("id") && j.contains("name") && j.contains("description") &&
         j.contains("due") && j.contains("priority") && j.contains("done") && j.contains("tags");
 }
+
+size_t displayWidth(const std::string& str)
+{
+    size_t width = 0;
+    for (size_t i = 0; i < str.size(); )
+    {
+        unsigned char c = str[i];
+        if (c <= 0x7F)
+        { // ASCII
+            width += 1;
+            i += 1;
+        }
+        else if ((c & 0xE0) == 0xC0)
+        { // 2-byte UTF-8
+            width += 1;
+            i += 2;
+        }
+        else if ((c & 0xF0) == 0xE0)
+        { // 3-byte UTF-8 (русские)
+            width += 1;
+            i += 3;
+        }
+    }
+    return width;
+}
+
+std::string padRight(const std::string& s, size_t w)
+{
+    size_t len = displayWidth(s);
+    if (len >= w) return s.substr(0, w);
+    return s + std::string(w - len, ' ');
+}
 }
 
 json to_json(const Task& t)
@@ -140,12 +172,12 @@ void Task::Print(std::ostream& os) const
     }
 
     os << "| " << std::setw(4) << std::right << m_id
-        << " | " << std::setw(18) << std::left << m_name.substr(0, 18)
-        << " | " << std::setw(24) << std::left << m_description.substr(0, 24)
+        << " | " << padRight(m_name, 18)
+        << " | " << padRight(m_description, 24)
         << " | " << std::setw(10) << std::left << deadlineStr
         << " | " << std::setw(8) << std::right << m_priority
-        << " | " << std::setw(22) << std::left << statusStr
-        << " | " << std::setw(14) << std::left << tags.str().substr(0, 14)
+        << " | " << padRight(statusStr, 22)
+        << " | " << padRight(tags.str(), 14)
         << " |";
 }
 
