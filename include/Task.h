@@ -86,13 +86,13 @@ std::ostream& operator<<(std::ostream& os, const Task& task);
 
 /**
  * @brief Сериализует в json
- * @param t Таск, который нужно сериализовать
+ * @param task Таск, который нужно сериализовать
  */
-json to_json(const Task& t);
+json to_json(const Task& task);
 
 /**
  * @brief Десериализует из json
- * @param j Объект откуда будет прочтён таск
+ * @param jsonObj Объект откуда будет прочтён таск
  * @return Нужный таск
  */
-Task from_json(const json& j);
+Task from_json(const json& jsonObj);

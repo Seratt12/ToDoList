@@ -19,7 +19,7 @@ std::vector<Task> FileStorageJSON::Load()
             std::vector<Task> tasks;
             if (j.is_array())
             {
-                for (auto& task : j)
+                for (const auto& task : j)
                     tasks.emplace_back(from_json(task));
                 return tasks;
             }

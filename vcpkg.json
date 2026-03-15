@@ -1,0 +1,10 @@
+{
+  "name": "to-do",
+  "version": "1.0.0",
+  "dependencies": [
+    "wxwidgets",
+    "nanosvg",
+    "cxxopts",
+    "nlohmann-json"
+  ]
+}

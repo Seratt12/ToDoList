@@ -1,0 +1,32 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "variables": [
+        {
+          "name": "wxwidgets_DIR",
+          "value": "D:/Proj/ToDoList/vcpkg/installed/x64-windows/share/wxwidgets",
+          "type": "PATH"
+        },
+        {
+          "name": "wxWidgets_DIR",
+          "value": "D:/Proj/ToDoList/vcpkg/installed/x64-windows/share/wxwidgets",
+          "type": "PATH"
+        },
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "D:/Proj/ToDoList/vcpkg/scripts/buildsystems/vcpkg.cmake",
+          "type": "STRING"
+        }
+      ]
+    }
+  ]
+}

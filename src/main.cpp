@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <cxxopts.hpp>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -8,12 +10,11 @@
 #include "Task.h"
 #include "FileStorage.h"
 #include "TaskManager.h"
-#include "cxxopts/cxxopts.hpp"
 
 namespace
 {
-const std::string VERSION = "0.1.0";
-const Language localization = Language::RU; // RU - Русский, EN - English
+const inline std::string VERSION = "0.1.0";
+constexpr Language localization = Language::RU; // RU - Русский, EN - English
 const Localization loc(localization);
 
 bool isDateValid(const std::string& date)
@@ -219,7 +220,8 @@ void CheckCommand(const cxxopts::ParseResult& result, const cxxopts::Options opt
     }
   }
 
-  std::cout << "Unknown command" << std::endl;
+  // startGUI
+
   exit(1);
 }
 }
@@ -236,10 +238,8 @@ int main(int argc, char* argv[])
   {
     auto result = options.parse(argc, argv);
 
-    // Файл для ввода/вывода
-    const std::string& fileName = result["file"].as<std::string>();
-    // Полный путь
-    const std::string& fullPath = std::string(DATA_DIR_PATH) + "/" + fileName;
+    const auto& fileName = result["file"].as<std::string>();
+    const auto& fullPath = std::string(DATA_DIR_PATH) + "/" + fileName;
 
     CheckCommand(result, options, fullPath);
 

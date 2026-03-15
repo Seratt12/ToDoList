@@ -1,32 +1,25 @@
 [
     {
-        "description": "description1",
+        "description": "Хм",
         "done": false,
-        "due": null,
+        "due": "2026-03-17",
         "id": 1,
-        "name": "task1",
-        "priority": 2,
+        "name": "Новая задача",
+        "priority": 1,
         "tags": [
-            "tag1",
-            "tag2"
+            "C++"
         ]
     },
     {
-        "description": "description2",
+        "description": "Новая задача 123",
         "done": false,
-        "due": "2025-08-15",
+        "due": "2028-02-20",
         "id": 2,
-        "name": "task2",
-        "priority": 2,
-        "tags": []
-    },
-    {
-        "description": "descr3",
-        "done": true,
-        "due": "2025-08-17",
-        "id": 3,
-        "name": "task3",
+        "name": "Новая задача 123",
         "priority": 3,
-        "tags": []
+        "tags": [
+            "Hm",
+            "1C"
+        ]
     }
 ]

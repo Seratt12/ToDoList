@@ -57,18 +57,19 @@ std::string padRight(const std::string& s, size_t w)
 }
 }
 
-json to_json(const Task& t)
+json to_json(const Task& task)
 {
-    json j = {
-        {"id", t.GetId()},
-        {"name", t.m_name},
-        {"description", t.m_description},
-        {"due", t.m_due},
-        {"priority", t.m_priority},
-        {"done", t.GetStatus()},
-        {"tags", t.m_tags} };
+    json jsonTask;
 
-    return j;
+    jsonTask["id"] = task.GetId();
+    jsonTask["name"] = task.m_name;
+    jsonTask["description"] = task.m_description;
+    jsonTask["due"] = task.m_due.value_or(nullptr);
+    jsonTask["priority"] = task.m_priority;
+    jsonTask["done"] = task.GetStatus();
+    jsonTask["tags"] = task.m_tags;
+
+    return jsonTask;
 }
 
 Task from_json(const json& j)
